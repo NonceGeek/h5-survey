@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>「粤菜记忆」声音资源征集</title>
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="survey-header">
+      <img src="/logo.png" alt="粤菜记忆" class="survey-logo" />
+      <h1>「粤菜记忆」声音资源征集</h1>
+      <p class="subtitle">感谢您的参与，请填写以下基础信息</p>
+    </header>
+
+    <form id="surveyForm" class="survey-form" novalidate>
+      <div class="form-group">
+        <label class="form-label required">微信 ID</label>
+        <p class="form-desc">获得奖励时，便于工作人员建立联系</p>
+        <input type="text" name="wechatId" class="form-input" placeholder="请输入您的微信 ID" />
+        <span class="error-msg" data-field="wechatId"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required">请选择您的性别</label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="gender" value="男性" />
+            <span class="radio-mark"></span>
+            <span>男性</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="gender" value="女性" />
+            <span class="radio-mark"></span>
+            <span>女性</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="gender" value="不方便透露" />
+            <span class="radio-mark"></span>
+            <span>不方便透露</span>
+          </label>
+        </div>
+        <span class="error-msg" data-field="gender"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required">请选择您的年龄段</label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="ageRange" value="14岁以下" />
+            <span class="radio-mark"></span>
+            <span>14岁以下</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="ageRange" value="14岁-18岁" />
+            <span class="radio-mark"></span>
+            <span>14岁-18岁</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="ageRange" value="18-25岁" />
+            <span class="radio-mark"></span>
+            <span>18-25岁</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="ageRange" value="25-35岁" />
+            <span class="radio-mark"></span>
+            <span>25-35岁</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="ageRange" value="35岁以上" />
+            <span class="radio-mark"></span>
+            <span>35岁以上</span>
+          </label>
+        </div>
+        <span class="error-msg" data-field="ageRange"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required">您更熟悉哪个地区的语言文化？</label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="region" value="广州" />
+            <span class="radio-mark"></span>
+            <span>广州</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="佛山" />
+            <span class="radio-mark"></span>
+            <span>佛山</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="江门" />
+            <span class="radio-mark"></span>
+            <span>江门</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="香港" />
+            <span class="radio-mark"></span>
+            <span>香港</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="澳门" />
+            <span class="radio-mark"></span>
+            <span>澳门</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="珠海" />
+            <span class="radio-mark"></span>
+            <span>珠海</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="顺德" />
+            <span class="radio-mark"></span>
+            <span>顺德</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="广东其他地区" />
+            <span class="radio-mark"></span>
+            <span>广东其他地区</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="广西其他地区" />
+            <span class="radio-mark"></span>
+            <span>广西其他地区</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="region" value="海外粤语文化圈" />
+            <span class="radio-mark"></span>
+            <span>海外粤语文化圈</span>
+          </label>
+        </div>
+        <span class="error-msg" data-field="region"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label required">您更感兴趣的活动类型？</label>
+        <p class="form-desc">可多选</p>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" name="activityType" value="用语" />
+            <span class="checkbox-mark"></span>
+            <span>用语</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="activityType" value="故事" />
+            <span class="checkbox-mark"></span>
+            <span>故事</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="activityType" value="诗歌" />
+            <span class="checkbox-mark"></span>
+            <span>诗歌</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="activityType" value="地名解说" />
+            <span class="checkbox-mark"></span>
+            <span>地名解说</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="activityType" value="俗语" />
+            <span class="checkbox-mark"></span>
+            <span>俗语</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="activityType" value="自然对话" />
+            <span class="checkbox-mark"></span>
+            <span>自然对话</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="activityType" value="粤语影视剧" />
+            <span class="checkbox-mark"></span>
+            <span>粤语影视剧</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="activityType" value="粤语配音动画片" />
+            <span class="checkbox-mark"></span>
+            <span>粤语配音动画片</span>
+          </label>
+          <label class="checkbox-item other-item">
+            <input type="checkbox" name="activityType" value="其他" id="otherCheckbox" />
+            <span class="checkbox-mark"></span>
+            <span>其他</span>
+            <input type="text" class="other-input" id="otherInput" placeholder="请自行填写" disabled />
+          </label>
+        </div>
+        <span class="error-msg" data-field="activityType"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">联系电话 <span class="optional-tag">选填</span></label>
+        <p class="form-desc">获得奖励时，便于工作人员建立联系</p>
+        <input type="tel" name="phone" class="form-input" placeholder="请输入您的联系电话" />
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">下一步</button>
+    </form>
+
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-card">
+        <div class="success-icon">&#10003;</div>
+        <h2>基本资料提交成功</h2>
+        <h2>接下来进入微信小程序录制音频</h2>
+        <p class="success-hint">👇 扫描二维码进入公众号，点击「Apps &gt; 语料征集」 👇</p>
+        <img
+          src="/qrcode_for_pub_acct.jpg"
+          alt="公众号二维码"
+          class="success-qrcode"
+        />
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
