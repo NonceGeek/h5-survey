@@ -22,7 +22,7 @@ create table public.app_lib_h5_survey (
   content jsonb null default '{}'::jsonb,
   created_at timestamp with time zone not null default now(),
   updated_at timestamp with time zone null default now(),
-  constraint app_lib_h5_survey_pkey primary key (id)
+  wechat_id text null
 ) TABLESPACE pg_default;
 ```
 

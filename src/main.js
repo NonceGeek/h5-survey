@@ -66,7 +66,6 @@ async function handleSubmit(e) {
   submitBtn.textContent = "提交中...";
 
   const content = {
-    wechatId: data.wechatId,
     gender: data.gender,
     ageRange: data.ageRange,
     region: data.region,
@@ -75,11 +74,12 @@ async function handleSubmit(e) {
   };
 
   const { error } = await supabase.from("app_lib_h5_survey").insert({
+    wechat_id: data.wechatId,
     content,
   });
 
   submitBtn.disabled = false;
-  submitBtn.textContent = "提交";
+  submitBtn.textContent = "下一步";
 
   if (error) {
     alert("提交失败，请稍后重试：" + error.message);
