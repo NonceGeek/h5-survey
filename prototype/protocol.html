@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>荔湾（西关）文化数据集 · 征集小程序界面设计稿 V2</title>
+<style>
+:root{
+  --board:#E9E7DD;
+  --paper:#F2F0E8;
+  --card:#FBFAF5;
+  --ink:#24281F;
+  --ink2:#6D7062;
+  --line:#DBD8C8;
+  --line-soft:#E6E3D5;
+  --green:#1E5B4D;
+  --green-deep:#154439;
+  --green-tint:#E3EBE5;
+  --amber:#A97B1F;
+  --amber-deep:#7C5A13;
+  --amber-tint:#F2EAD6;
+  --blue:#3A5A82;
+  --blue-tint:#E2E8EF;
+  --red:#B23A26;
+  --wood:#4A4437;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--board);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.7;
+}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px;}
+button{font-family:inherit;cursor:pointer;}
+
+/* ============ 外层版面 ============ */
+.masthead{
+  border-bottom:1px solid var(--line);
+  background:var(--board);
+}
+.masthead .inner{
+  max-width:1200px;margin:0 auto;padding:20px 28px;
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.masthead h1{
+  font-family:var(--serif);font-size:21px;font-weight:700;margin:0;letter-spacing:.02em;
+}
+.masthead .ver{font-size:13px;color:var(--ink2);}
+.stage{
+  max-width:1200px;margin:0 auto;padding:32px 28px 64px;
+  display:grid;grid-template-columns:430px 1fr;gap:44px;align-items:start;
+}
+.device-col{position:sticky;top:24px;}
+
+/* 屏幕切换器 */
+.proto-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.proto-tabs button{
+  border:1px solid var(--line);background:transparent;color:var(--ink2);
+  font-size:13px;padding:6px 13px;border-radius:999px;transition:all .15s;
+}
+.proto-tabs button.on{background:var(--green);border-color:var(--green);color:#fff;}
+.proto-tabs button:hover:not(.on){border-color:var(--ink2);color:var(--ink);}
+
+/* ============ 手机框 ============ */
+.device{
+  width:402px;background:#1D1F1A;border-radius:56px;padding:12px;
+  box-shadow:0 24px 60px rgba(40,42,32,.28);
+}
+.viewport{
+  width:378px;height:800px;background:var(--paper);border-radius:44px;
+  overflow:hidden;position:relative;
+}
+.screen{display:none;position:absolute;inset:0;flex-direction:column;background:var(--paper);}
+.screen.active{display:flex;animation:fadeIn .22s ease;}
+@keyframes fadeIn{from{opacity:.4}to{opacity:1}}
+
+/* 状态栏与胶囊 */
+.statusbar{
+  flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:16px 22px 6px;font-size:13px;font-weight:600;color:var(--ink);
+}
+.capsule{
+  display:flex;align-items:center;gap:0;border:1px solid rgba(0,0,0,.12);
+  background:rgba(255,255,255,.55);border-radius:999px;overflow:hidden;
+}
+.capsule span{padding:3px 11px;font-size:12px;color:#3a3a3a;line-height:1.2;}
+.capsule span:first-child{border-right:1px solid rgba(0,0,0,.12);letter-spacing:1px;}
+
+/* 顶部导航（二级页） */
+.navbar{
+  flex:none;display:flex;align-items:center;gap:10px;padding:8px 18px 10px;
+}
+.navbar .back{
+  border:none;background:transparent;font-size:20px;line-height:1;color:var(--ink);
+  padding:4px 8px 6px 0;
+}
+.navbar .nav-title{font-family:var(--serif);font-size:16px;font-weight:700;}
+.navbar .nav-sub{font-size:11px;color:var(--ink2);margin-top:1px;}
+
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* 底部操作条 */
+.dock{
+  flex:none;display:flex;gap:12px;padding:12px 18px calc(12px + 14px);
+  border-top:1px solid var(--line);background:var(--paper);
+}
+.btn{
+  border-radius:999px;font-size:15px;padding:12px 18px;border:1px solid transparent;
+  transition:transform .1s, background .15s;
+}
+.btn:active{transform:scale(.98);}
+.btn-primary{background:var(--green);color:#fff;flex:1.4;}
+.btn-primary:hover{background:var(--green-deep);}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--ink);flex:1;}
+.btn-ghost:hover{border-color:var(--ink2);}
+.btn-block{display:block;width:100%;}
+.btn-text{border:none;background:transparent;color:var(--ink2);font-size:13px;text-decoration:underline;text-underline-offset:3px;}
+
+/* 轻提示 */
+.toast{
+  position:absolute;left:50%;bottom:104px;transform:translateX(-50%);
+  background:rgba(36,40,31,.92);color:#fff;font-size:12.5px;padding:9px 16px;
+  border-radius:999px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .25s;
+  max-width:88%;z-index:60;
+}
+.toast.show{opacity:1;}
+
+/* ============ 满洲窗元素 ============ */
+.glass-strip{
+  display:flex;gap:3px;background:var(--wood);padding:3px;border-radius:4px;height:15px;
+}
+.glass-strip i{flex:1;border-radius:1.5px;}
+.p-g{background:#2E6B5B;}
+.p-r{background:#B5432C;}
+.p-a{background:#C1922F;}
+.p-b{background:#3E6089;}
+
+/* ============ 首页 ============ */
+.hero{
+  display:grid;grid-template-columns:1fr 46px;gap:14px;
+  padding:18px 22px 20px;
+}
+.hero .host{font-size:12px;color:var(--ink2);letter-spacing:.04em;margin-bottom:14px;}
+.hero h2{
+  font-family:var(--serif);font-weight:900;font-size:31px;line-height:1.32;
+  margin:0 0 12px;letter-spacing:.01em;
+}
+.hero .lead{font-size:13.5px;color:var(--ink2);line-height:1.85;margin:0 0 14px;}
+.pills{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{
+  font-size:12px;color:var(--green-deep);background:var(--green-tint);
+  border-radius:999px;padding:4px 12px;
+}
+.hero-side{
+  border-left:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:4px 0 2px 12px;
+}
+.v-slogan{
+  writing-mode:vertical-rl;font-family:var(--serif);font-size:12px;color:var(--ink2);
+  letter-spacing:.42em;line-height:1;
+}
+.seal{
+  width:30px;height:34px;background:var(--red);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;margin-top:12px;
+}
+.seal span{
+  writing-mode:vertical-rl;color:#fff;font-family:var(--serif);
+  font-size:12px;font-weight:700;letter-spacing:.15em;
+}
+.hero-strip{margin:0 22px 6px;}
+
+/* 内容区块 */
+.sec{padding:24px 22px;}
+.sec + .sec{border-top:1px solid var(--line-soft);}
+.sec-h{display:flex;align-items:center;gap:9px;margin-bottom:14px;}
+.sec-h i{width:9px;height:9px;background:var(--green);flex:none;}
+.sec-h h3{font-family:var(--serif);font-size:17px;font-weight:700;margin:0;}
+.sec p{margin:0 0 10px;font-size:13.5px;color:var(--ink);}
+
+.want-item{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:14px 15px;margin-bottom:10px;
+}
+.want-item b{font-size:14px;display:block;margin-bottom:4px;font-weight:600;}
+.want-item span{font-size:13px;color:var(--ink2);line-height:1.75;display:block;}
+.scope{
+  font-size:12.5px;color:var(--ink2);line-height:1.8;margin-top:12px;
+  padding-left:11px;border-left:2px solid var(--line);
+}
+
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.spec{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 13px;
+}
+.spec svg{width:19px;height:19px;stroke:var(--green);fill:none;stroke-width:1.6;margin-bottom:7px;}
+.spec b{display:block;font-size:13.5px;font-weight:600;margin-bottom:2px;}
+.spec span{font-size:12px;color:var(--ink2);line-height:1.6;display:block;}
+.spec-note{font-size:12.5px;color:var(--ink2);margin-top:12px;line-height:1.8;}
+
+.acc{margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;}
+.acc-head{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  background:transparent;border:none;padding:12px 15px;font-size:13.5px;color:var(--ink);
+}
+.acc-head .arrow{transition:transform .2s;color:var(--ink2);font-size:12px;}
+.acc.open .arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:2px 15px 14px;border-top:1px solid var(--line-soft);}
+.acc.open .acc-body{display:block;}
+.acc-body p{font-size:12.5px;color:var(--ink2);line-height:1.85;margin:9px 0 0;}
+.acc-body p b{color:var(--ink);font-weight:600;}
+
+.use-list p{position:relative;padding-left:15px;font-size:13.5px;margin-bottom:9px;}
+.use-list p::before{
+  content:"";position:absolute;left:0;top:9px;width:6px;height:6px;background:var(--green);
+}
+.fine{font-size:11.5px;color:var(--ink2);line-height:1.75;margin-top:14px;}
+.footer-org{
+  padding:20px 22px 28px;border-top:1px solid var(--line-soft);
+  font-size:11.5px;color:var(--ink2);line-height:2;
+}
+
+/* ============ 表单与登记页共用 ============ */
+.form-body{padding:6px 20px 24px;}
+.reg-lead{font-size:12.5px;color:var(--ink2);line-height:1.85;margin:4px 0 2px;}
+.fgroup{padding:16px 0 6px;}
+.fgroup + .fgroup{border-top:1px solid var(--line-soft);}
+.fgroup > h4{
+  font-family:var(--serif);font-size:15px;font-weight:700;margin:0 0 12px;
+  display:flex;align-items:center;gap:8px;
+}
+.fgroup > h4 i{width:8px;height:8px;background:var(--green);flex:none;}
+.fgroup > h4 em{font-style:normal;font-size:11.5px;color:var(--ink2);font-family:var(--sans);font-weight:400;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:13px;margin-bottom:6px;color:var(--ink);}
+.field label .req{color:var(--red);margin-left:2px;}
+.field label .opt{color:var(--ink2);font-size:11.5px;margin-left:6px;}
+.field input[type=text], .field input[type=tel], .field select, .field textarea{
+  width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;
+  font-size:14px;padding:11px 13px;color:var(--ink);font-family:var(--sans);
+}
+.field input::placeholder, .field textarea::placeholder{color:#B4B2A4;}
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline:none;border-color:var(--green);box-shadow:0 0 0 2px rgba(30,91,77,.12);
+}
+.field .help{font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.6;}
+.field textarea{min-height:96px;resize:none;line-height:1.7;}
+.ta-count{text-align:right;font-size:11px;color:var(--ink2);margin-top:3px;}
+
+.photo-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;}
+.ptile{
+  aspect-ratio:1/1;border:1.5px dashed var(--line);border-radius:12px;background:var(--card);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  font-size:11.5px;color:var(--ink2);padding:6px;text-align:center;position:relative;
+}
+.ptile .plus{font-size:22px;line-height:1;color:var(--ink2);font-weight:300;}
+.ptile.must{border-color:var(--green);color:var(--green-deep);}
+.ptile.must .plus{color:var(--green);}
+.ptile.filled{
+  border-style:solid;border-color:var(--line);
+  background:repeating-linear-gradient(45deg,#E4E2D6 0 8px,#DCDACB 8px 16px);
+  color:var(--ink);
+}
+.ptile.filled::after{
+  content:"✓";position:absolute;top:6px;right:6px;width:18px;height:18px;
+  background:var(--green);color:#fff;border-radius:50%;font-size:11px;
+  display:flex;align-items:center;justify-content:center;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  border:1px solid var(--line);background:#fff;border-radius:999px;
+  padding:5px 13px;font-size:12.5px;color:var(--ink);transition:all .12s;
+}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff;}
+.phone-line{display:flex;gap:8px;}
+.phone-line input{flex:1;}
+.wx-fill{
+  flex:none;border:1px solid var(--green);background:var(--green-tint);color:var(--green-deep);
+  border-radius:10px;font-size:12.5px;padding:0 12px;
+}
+.agree{
+  display:flex;gap:9px;align-items:flex-start;margin:4px 0 10px;
+  font-size:12px;color:var(--ink2);line-height:1.7;
+}
+.agree input{margin-top:3px;accent-color:var(--green);width:15px;height:15px;flex:none;}
+
+/* 微信登录行 */
+.login-row{
+  display:flex;align-items:center;gap:12px;background:var(--card);
+  border:1px solid var(--line);border-radius:12px;padding:13px 14px;
+}
+.avatar{
+  width:46px;height:46px;border-radius:50%;background:var(--line-soft);flex:none;
+  display:flex;align-items:center;justify-content:center;color:#ABA99B;
+}
+.avatar svg{width:24px;height:24px;fill:currentColor;}
+.avatar.ok{
+  background:var(--green);color:#fff;font-family:var(--serif);
+  font-size:19px;font-weight:700;
+}
+.lg-info{flex:1;min-width:0;}
+.lg-info b{display:block;font-size:14.5px;font-weight:600;}
+.lg-info span{font-size:12px;color:var(--ink2);}
+.lg-info span.ok{color:var(--green-deep);}
+.lg-btn{
+  flex:none;background:var(--green);color:#fff;border:none;border-radius:999px;
+  padding:8px 20px;font-size:13.5px;
+}
+.login-note{font-size:11.5px;color:var(--ink2);margin-top:8px;line-height:1.6;}
+
+/* ============ 提交成功 ============ */
+.done-wrap{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:0 34px 40px;text-align:center;
+}
+.done-glass{
+  width:88px;height:88px;background:var(--wood);border-radius:14px;padding:5px;
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:4px;
+  position:relative;margin-bottom:22px;
+}
+.done-glass i{border-radius:3px;}
+.done-glass .check{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:40px;text-shadow:0 1px 6px rgba(0,0,0,.35);
+}
+.done-wrap h3{font-family:var(--serif);font-size:22px;margin:0 0 10px;}
+.done-wrap p{font-size:13.5px;color:var(--ink2);line-height:1.9;margin:0 0 26px;}
+.done-actions{width:100%;display:flex;flex-direction:column;gap:11px;align-items:center;}
+.done-actions .btn{width:100%;}
+
+/* ============ 我的投稿 ============ */
+.profile-row{
+  display:flex;align-items:center;gap:11px;margin:2px 20px 12px;
+  padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;
+}
+.profile-row .avatar{width:38px;height:38px;font-size:16px;}
+.profile-info b{font-size:13.5px;display:block;}
+.profile-info span{font-size:11.5px;color:var(--ink2);}
+.profile-row .btn-text{margin-left:auto;flex:none;}
+.mine-list{padding:8px 20px 20px;}
+.mine-item{
+  display:flex;gap:13px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:12px;margin-bottom:11px;align-items:center;
+}
+.mine-thumb{
+  width:58px;height:58px;border-radius:9px;flex:none;
+  background:repeating-linear-gradient(45deg,#E4E2D6 0 8px,#DCDACB 8px 16px);
+}
+.mine-info{flex:1;min-width:0;}
+.mine-info b{display:block;font-size:14px;font-weight:600;margin-bottom:3px;}
+.mine-info span{font-size:11.5px;color:var(--ink2);}
+.status{flex:none;font-size:11.5px;border-radius:999px;padding:3px 10px;}
+.st-in{background:var(--green-tint);color:var(--green-deep);}
+.st-review{background:var(--amber-tint);color:var(--amber-deep);}
+.mine-note{font-size:11.5px;color:var(--ink2);padding:4px 22px 0;line-height:1.8;}
+
+/* ============ 第二期预览 ============ */
+.v2-head{padding:20px 22px 16px;}
+.v2-head h2{font-family:var(--serif);font-weight:900;font-size:25px;margin:0 0 6px;line-height:1.35;}
+.v2-head p{font-size:13px;color:var(--ink2);margin:0 0 14px;}
+.v2-list{padding:6px 20px 24px;display:flex;flex-direction:column;gap:13px;}
+.camp{
+  display:flex;background:var(--card);border:1px solid var(--line);border-radius:13px;overflow:hidden;
+}
+.camp .spine{width:7px;flex:none;}
+.camp.c-g .spine{background:#2E6B5B;}
+.camp.c-a .spine{background:#C1922F;}
+.camp.c-b .spine{background:#3E6089;}
+.camp .body{flex:1;padding:14px 15px;}
+.camp-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.camp-tag{font-size:11px;border-radius:5px;padding:2px 8px;}
+.c-g .camp-tag{background:var(--green-tint);color:var(--green-deep);}
+.c-a .camp-tag{background:var(--amber-tint);color:var(--amber-deep);}
+.c-b .camp-tag{background:var(--blue-tint);color:var(--blue);}
+.camp-status{font-size:11px;color:var(--ink2);margin-left:auto;}
+.camp-status.live{color:var(--green-deep);font-weight:600;}
+.camp h4{font-family:var(--serif);font-size:16.5px;font-weight:700;margin:0 0 4px;}
+.camp p{font-size:12.5px;color:var(--ink2);margin:0 0 11px;line-height:1.7;}
+.camp-cta{border-radius:999px;font-size:12.5px;padding:6px 16px;border:1px solid transparent;}
+.c-g .camp-cta{background:var(--green);color:#fff;}
+.camp-cta.soon{background:transparent;border-color:var(--line);color:var(--ink2);}
+.v2-note{font-size:11.5px;color:var(--ink2);padding:0 22px 24px;line-height:1.8;}
+
+/* ============ 右侧设计说明 ============ */
+.notes{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:30px 34px 34px;
+}
+.notes h2{font-family:var(--serif);font-size:19px;font-weight:700;margin:0 0 4px;}
+.notes .sub{font-size:13px;color:var(--ink2);margin:0 0 22px;line-height:1.9;}
+.notes h3{
+  font-family:var(--serif);font-size:15.5px;font-weight:700;margin:26px 0 10px;
+  padding-top:20px;border-top:1px solid var(--line-soft);
+}
+.notes h3:first-of-type{border-top:none;padding-top:0;margin-top:0;}
+.notes p{font-size:13.5px;line-height:1.95;margin:0 0 10px;color:var(--ink);}
+.notes ol{margin:0 0 10px;padding-left:20px;}
+.notes ol li{font-size:13.5px;line-height:1.95;margin-bottom:8px;}
+.notes b{font-weight:600;}
+.swatches{display:flex;gap:10px;margin:12px 0 4px;flex-wrap:wrap;}
+.sw{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);}
+.sw i{width:14px;height:14px;border-radius:4px;display:inline-block;}
+
+/* ============ 响应式 ============ */
+@media (max-width:980px){
+  .stage{grid-template-columns:1fr;gap:36px;}
+  .device-col{position:static;display:flex;flex-direction:column;align-items:center;}
+}
+@media (max-width:440px){
+  .device{transform:scale(.9);margin-bottom:-70px;}
+  .stage{padding:20px 12px 48px;}
+  .notes{padding:22px 20px;}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important;transition:none !important;}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="inner">
+    <h1>荔湾（西关）文化数据集　征集小程序界面设计稿</h1>
+    <span class="ver">第一期方案 V2（2026年9月）　可点击操作</span>
+  </div>
+</header>
+
+<div class="stage">
+
+  <!-- ================= 左：手机原型 ================= -->
+  <div class="device-col">
+    <div class="proto-tabs" role="tablist" aria-label="界面切换">
+      <button class="on" data-screen="s-home">首页（征集公告）</button>
+      <button data-screen="s-reg">首次登记</button>
+      <button data-screen="s-form">投稿表单</button>
+      <button data-screen="s-done">提交成功</button>
+      <button data-screen="s-mine">我的投稿</button>
+      <button data-screen="s-v2">第二期预览</button>
+    </div>
+
+    <div class="device">
+      <div class="viewport">
+
+        <!-- ========== 屏1 首页 ========== -->
+        <section class="screen active" id="s-home">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="capsule"><span>•••</span><span>◉</span></span>
+          </div>
+          <div class="scroll">
+            <div class="hero">
+              <div>
+                <div class="host">广州大学荔湾研究院　主办</div>
+                <h2>荔湾历史建筑<br>文化信息征集</h2>
+                <p class="lead">面向文化研究者、文史爱好者与摄影爱好者，征集荔湾历史建筑和历史街区的影像与故事线索，共建荔湾（西关）文化数据集。</p>
+                <div class="pills">
+                  <span class="pill">长期征集</span>
+                  <span class="pill">定期表彰优秀作品</span>
+                </div>
+              </div>
+              <div class="hero-side">
+                <span class="v-slogan">保留城市历史记忆</span>
+                <span class="seal"><span>西关</span></span>
+              </div>
+            </div>
+
+            <div class="glass-strip hero-strip" aria-hidden="true">
+              <i class="p-g"></i><i class="p-r"></i><i class="p-a"></i><i class="p-b"></i><i class="p-g"></i><i class="p-a"></i><i class="p-r"></i><i class="p-b"></i><i class="p-g"></i><i class="p-a"></i>
+            </div>
+
+            <div class="sec">
+              <div class="sec-h"><i></i><h3>征集什么</h3></div>
+              <div class="want-item">
+                <b>建筑外观照片</b>
+                <span>沿街正立面、侧立面为主，至少一张完整立面。入口、阳台、门窗、柱头等构件，以及彩绘、灰塑、石雕、砖雕、木雕等特色工艺，欢迎放大拍摄特写。</span>
+              </div>
+              <div class="want-item">
+                <b>建筑背后的故事</b>
+                <span>这栋楼的来历、住过的人、发生过的事。几句话的线索也很珍贵，投稿时直接填写即可。</span>
+              </div>
+              <p class="scope">征集范围为荔湾区登记在册的区级以上历史建筑、传统风貌建筑、不可移动文物，十四个广州市历史文化街区，以及其他有重要保护价值的建筑。名录可在广州大学荔湾研究院官网查询。</p>
+            </div>
+
+            <div class="sec">
+              <div class="sec-h"><i></i><h3>照片这样拍</h3></div>
+              <div class="spec-grid">
+                <div class="spec">
+                  <svg viewBox="0 0 24 24"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/><rect x="9" y="9" width="6" height="6"/></svg>
+                  <b>画质</b><span>原生分辨率，长边不低于 6000 像素</span>
+                </div>
+                <div class="spec">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3l4.5 7.8M21 12h-9M16.5 19.8L12 12M7.5 19.8h9M3 12l4.5 7.8M7.5 4.2L12 12"/></svg>
+                  <b>曝光</b><span>ISO 不高于 1000，光圈不低于 f/8</span>
+                </div>
+                <div class="spec">
+                  <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M4 12h16M12 4v16"/></svg>
+                  <b>构图</b><span>正面平视，立面完整，横平竖直</span>
+                </div>
+                <div class="spec">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+                  <b>光线</b><span>顺光柔和，避开阴雨天</span>
+                </div>
+              </div>
+              <p class="spec-note">用 RAW 格式拍摄，导出 JPG 提交。照片由系统按统一规范自动命名归档，不必手动改名。</p>
+              <div class="acc" id="acc-std">
+                <button class="acc-head" onclick="toggleAcc()">
+                  <span>查看完整采集标准</span><span class="arrow">▼</span>
+                </button>
+                <div class="acc-body">
+                  <p><b>内容</b>　以沿街正立面、侧立面为主，至少提交一张完整立面。侧立面被遮挡三分之二以上或隐于相邻建筑的，可不采集。特色构件与工艺请逐一放大拍摄局部特写。</p>
+                  <p><b>画质</b>　光学变焦下拍摄的原生分辨率（非插值），长边有效像素不低于 6000。</p>
+                  <p><b>曝光</b>　ISO 不高于 1000，光圈不低于 f/8。</p>
+                  <p><b>构图</b>　建筑外立面完整，尽量正面拍摄、平视，保证线条横平竖直，减少倾角和变形。</p>
+                  <p><b>色彩</b>　选择顺光、柔和光线，清晰呈现建筑正面细节，不宜在阴雨天采集。同组照片的曝光、对比度和白平衡基本一致。</p>
+                  <p><b>格式</b>　RAW 拍摄并导出 JPG 提交。故事线索在投稿页直接填写。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="sec">
+              <div class="sec-h"><i></i><h3>作品去向</h3></div>
+              <div class="use-list">
+                <p>邀请建筑、人文、美术设计等领域专家定期评选优秀作品，予以表彰。</p>
+                <p>收入荔湾（西关）文化数据集，用于历史文化保护宣传、公益展览和学术研究等非商业用途。</p>
+                <p>所有作品依法规范标注作者信息，充分尊重每一份贡献。</p>
+              </div>
+              <p class="fine">投稿作品须为本人原创，不得侵犯第三方著作权、肖像权、名誉权等合法权益。投稿即视为同意上述使用。</p>
+            </div>
+
+            <div class="footer-org">
+              主办　广州大学荔湾研究院<br>
+              支持　粤语语料库建设与大模型评测广州市社科重点实验室
+            </div>
+          </div>
+          <div class="dock">
+            <button class="btn btn-ghost" onclick="go('s-mine')">我的投稿</button>
+            <button class="btn btn-primary" onclick="startSubmit()">我要投稿</button>
+          </div>
+        </section>
+
+        <!-- ========== 屏2 首次登记（登录＋问卷＋手机号，一页完成） ========== -->
+        <section class="screen" id="s-reg">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="capsule"><span>•••</span><span>◉</span></span>
+          </div>
+          <div class="navbar">
+            <button class="back" onclick="go('s-home')" aria-label="返回">‹</button>
+            <div>
+              <div class="nav-title">首次投稿登记</div>
+              <div class="nav-sub">只需一次，之后点开即投</div>
+            </div>
+          </div>
+          <div class="scroll">
+            <div class="form-body">
+              <p class="reg-lead">花半分钟完成登记。已填信息三项征集通用，之后可在"我的投稿"里修改。</p>
+
+              <div class="fgroup">
+                <h4><i></i>微信登录</h4>
+                <div class="login-row">
+                  <span class="avatar" id="lgAvatar"><svg viewBox="0 0 24 24"><path d="M12 12a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4zm0 2.1c-4 0-7.2 2-7.2 4.5V20h14.4v-1.4c0-2.5-3.2-4.5-7.2-4.5z"/></svg></span>
+                  <div class="lg-info">
+                    <b id="lgName">微信一键登录</b>
+                    <span id="lgSub">保存投稿记录，领取表彰更方便</span>
+                  </div>
+                  <button class="lg-btn" id="lgBtn" onclick="wxLogin()">登录</button>
+                </div>
+                <p class="login-note">打开小程序时已自动完成基础登录，此处仅授权头像与昵称。</p>
+              </div>
+
+              <div class="fgroup">
+                <h4><i></i>基础问卷 <em>仅用于研究统计，不对外公开</em></h4>
+                <div class="field">
+                  <label>你的年龄段<span class="req">＊</span></label>
+                  <div class="chips">
+                    <button class="chip" data-g="age" onclick="tapSingle(this)">18岁以下</button>
+                    <button class="chip" data-g="age" onclick="tapSingle(this)">18—24</button>
+                    <button class="chip" data-g="age" onclick="tapSingle(this)">25—34</button>
+                    <button class="chip" data-g="age" onclick="tapSingle(this)">35—44</button>
+                    <button class="chip" data-g="age" onclick="tapSingle(this)">45—59</button>
+                    <button class="chip" data-g="age" onclick="tapSingle(this)">60岁及以上</button>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>你更熟悉哪个地区的语言文化<span class="req">＊</span></label>
+                  <div class="chips">
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">广州</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">佛山</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">顺德</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">江门</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">珠海</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">中山</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">东莞</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">香港</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">澳门</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">广东其他</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">省外</button>
+                    <button class="chip" data-g="region" onclick="tapSingle(this)">海外</button>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>你感兴趣的征集内容<span class="opt">可多选，可跳过</span></label>
+                  <div class="chips">
+                    <button class="chip" onclick="tapChip(this)">建筑与街区影像</button>
+                    <button class="chip" onclick="tapChip(this)">用语与俗语</button>
+                    <button class="chip" onclick="tapChip(this)">故事与对话</button>
+                    <button class="chip" onclick="tapChip(this)">诗歌与歌词</button>
+                    <button class="chip" onclick="tapChip(this)">地名解说</button>
+                    <button class="chip" onclick="tapChip(this)">影视与配音</button>
+                    <button class="chip" onclick="tapChip(this)">其他</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fgroup">
+                <h4><i></i>联系方式 <em>用于表彰联系与作品署名</em></h4>
+                <div class="field">
+                  <label for="r-tel">手机号<span class="req">＊</span></label>
+                  <div class="phone-line">
+                    <input type="tel" id="r-tel" placeholder="点右侧按钮直接带入">
+                    <button class="wx-fill" onclick="wxFill()">微信一键填写</button>
+                  </div>
+                  <div class="help">通过微信授权直接带入，无须输入短信验证码。不作其他用途。</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="dock">
+            <button class="btn btn-primary btn-block" id="regBtn" onclick="finishReg()">完成登记，开始投稿</button>
+          </div>
+        </section>
+
+        <!-- ========== 屏3 投稿表单（只填与作品有关的内容） ========== -->
+        <section class="screen" id="s-form">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="capsule"><span>•••</span><span>◉</span></span>
+          </div>
+          <div class="navbar">
+            <button class="back" onclick="go('s-home')" aria-label="返回">‹</button>
+            <div>
+              <div class="nav-title">投稿</div>
+              <div class="nav-sub">荔湾历史建筑文化信息征集</div>
+            </div>
+          </div>
+          <div class="scroll">
+            <div class="form-body">
+
+              <div class="fgroup">
+                <h4><i></i>建筑信息</h4>
+                <div class="field">
+                  <label for="f-name">建筑名称<span class="req">＊</span></label>
+                  <input type="text" id="f-name" placeholder="例如　宝华路某骑楼、龙津西路民居">
+                  <div class="help">说不准名称时，填地址或一句标志性描述即可</div>
+                </div>
+                <div class="field">
+                  <label for="f-street">所在历史文化街区</label>
+                  <select id="f-street">
+                    <option value="">请选择（不确定可不选）</option>
+                    <option>沙面</option>
+                    <option>上下九—第十甫</option>
+                    <option>人民南</option>
+                    <option>耀华大街</option>
+                    <option>光复中</option>
+                    <option>光复南</option>
+                    <option>和平中</option>
+                    <option>昌华大街</option>
+                    <option>宝源路</option>
+                    <option>宝华路</option>
+                    <option>多宝路</option>
+                    <option>逢源大街—荔湾湖</option>
+                    <option>龙津西路</option>
+                    <option>恩宁路</option>
+                    <option>不在上述街区</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="f-addr">具体位置（选填）</label>
+                  <input type="text" id="f-addr" placeholder="门牌号或就近路口">
+                </div>
+              </div>
+
+              <div class="fgroup">
+                <h4><i></i>上传照片 <em>JPG，长边不低于 6000 像素</em></h4>
+                <div class="photo-row">
+                  <button class="ptile must" onclick="fillTile(this)"><span class="plus">＋</span>完整立面<br>必传</button>
+                  <button class="ptile" onclick="fillTile(this)"><span class="plus">＋</span>局部特写<br>选填</button>
+                  <button class="ptile" onclick="fillTile(this)"><span class="plus">＋</span>局部特写<br>选填</button>
+                </div>
+                <div class="field">
+                  <label>照片内容（可多选）</label>
+                  <div class="chips">
+                    <button class="chip" onclick="tapChip(this)">正立面</button>
+                    <button class="chip" onclick="tapChip(this)">侧立面</button>
+                    <button class="chip" onclick="tapChip(this)">入口</button>
+                    <button class="chip" onclick="tapChip(this)">门窗</button>
+                    <button class="chip" onclick="tapChip(this)">阳台</button>
+                    <button class="chip" onclick="tapChip(this)">柱头</button>
+                    <button class="chip" onclick="tapChip(this)">彩绘</button>
+                    <button class="chip" onclick="tapChip(this)">灰塑</button>
+                    <button class="chip" onclick="tapChip(this)">石雕</button>
+                    <button class="chip" onclick="tapChip(this)">砖雕</button>
+                    <button class="chip" onclick="tapChip(this)">木雕</button>
+                    <button class="chip" onclick="tapChip(this)">其他</button>
+                  </div>
+                  <div class="help">命名交给系统，按采集日期、街巷、建筑名称、照片内容自动归档</div>
+                </div>
+              </div>
+
+              <div class="fgroup">
+                <h4><i></i>故事线索 <em>选填</em></h4>
+                <div class="field">
+                  <textarea id="f-story" maxlength="500" placeholder="这栋楼的往事、老街坊的讲述、旧照片的下落……几句话就好。" oninput="countTA(this)"></textarea>
+                  <div class="ta-count"><span id="ta-n">0</span>/500</div>
+                </div>
+              </div>
+
+              <div class="fgroup">
+                <h4><i></i>授权确认</h4>
+                <label class="agree">
+                  <input type="checkbox" id="f-agree">
+                  <span>我确认作品为本人原创，同意其收入荔湾（西关）文化数据集，用于历史文化保护宣传、公益展览和学术研究等非商业用途，作品将标注作者信息。</span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+          <div class="dock">
+            <button class="btn btn-primary btn-block" onclick="submitForm()">提交作品</button>
+          </div>
+        </section>
+
+        <!-- ========== 屏4 提交成功 ========== -->
+        <section class="screen" id="s-done">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="capsule"><span>•••</span><span>◉</span></span>
+          </div>
+          <div class="done-wrap">
+            <div class="done-glass" aria-hidden="true">
+              <i class="p-g"></i><i class="p-r"></i><i class="p-b"></i><i class="p-a"></i>
+              <span class="check">✓</span>
+            </div>
+            <h3>已收到你的投稿</h3>
+            <p>感谢为荔湾留下这份记录。作品进入定期评选后，如获表彰，我们会短信联系你。</p>
+            <div class="done-actions">
+              <button class="btn btn-primary" onclick="startSubmit()">再投一件</button>
+              <button class="btn btn-ghost" onclick="go('s-mine')">查看我的投稿</button>
+              <button class="btn-text" onclick="go('s-home')">回到征集公告</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== 屏5 我的投稿 ========== -->
+        <section class="screen" id="s-mine">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="capsule"><span>•••</span><span>◉</span></span>
+          </div>
+          <div class="navbar">
+            <button class="back" onclick="go('s-home')" aria-label="返回">‹</button>
+            <div><div class="nav-title">我的投稿</div></div>
+          </div>
+          <div class="scroll">
+            <div class="profile-row">
+              <span class="avatar ok">关</span>
+              <div class="profile-info">
+                <b>西关街坊</b>
+                <span>138✳✳✳✳1234</span>
+              </div>
+              <button class="btn-text" onclick="editReg()">修改登记</button>
+            </div>
+            <div class="mine-list">
+              <div class="mine-item">
+                <div class="mine-thumb"></div>
+                <div class="mine-info">
+                  <b>宝华路骑楼</b>
+                  <span>正立面等 3 张　2026年9月2日</span>
+                </div>
+                <span class="status st-in">已收录</span>
+              </div>
+              <div class="mine-item">
+                <div class="mine-thumb"></div>
+                <div class="mine-info">
+                  <b>逢源大街民居</b>
+                  <span>门窗特写 2 张　2026年9月1日</span>
+                </div>
+                <span class="status st-review">评选中</span>
+              </div>
+            </div>
+            <p class="mine-note">作品状态分为已提交、评选中、已收录。获表彰的作品会另行短信通知。</p>
+          </div>
+          <div class="dock">
+            <button class="btn btn-primary btn-block" onclick="startSubmit()">继续投稿</button>
+          </div>
+        </section>
+
+        <!-- ========== 屏6 第二期预览 ========== -->
+        <section class="screen" id="s-v2">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="capsule"><span>•••</span><span>◉</span></span>
+          </div>
+          <div class="scroll">
+            <div class="v2-head">
+              <h2>荔湾（西关）<br>文化数据集</h2>
+              <p>三项征集，各有分工，共建一个数据集</p>
+              <div class="glass-strip" aria-hidden="true">
+                <i class="p-g"></i><i class="p-a"></i><i class="p-b"></i><i class="p-g"></i><i class="p-r"></i><i class="p-a"></i><i class="p-b"></i><i class="p-g"></i><i class="p-a"></i><i class="p-b"></i>
+              </div>
+            </div>
+            <div class="v2-list">
+              <div class="camp c-g">
+                <div class="spine"></div>
+                <div class="body">
+                  <div class="camp-top">
+                    <span class="camp-tag">建筑影像</span>
+                    <span class="camp-status live">进行中</span>
+                  </div>
+                  <h4>荔湾历史建筑文化信息征集</h4>
+                  <p>拍下立面与细节，附上建筑背后的故事，留住城市记忆。</p>
+                  <button class="camp-cta" onclick="startSubmit()">去投稿</button>
+                </div>
+              </div>
+              <div class="camp c-a">
+                <div class="spine"></div>
+                <div class="body">
+                  <div class="camp-top">
+                    <span class="camp-tag">文化关键词</span>
+                    <span class="camp-status">即将开启</span>
+                  </div>
+                  <h4>岭南文化代表性元素全民征集</h4>
+                  <p>一个词、一道菜、一句俗语，说说你心中的岭南文化，并讲讲选它的理由。</p>
+                  <button class="camp-cta soon">开启后提醒我</button>
+                </div>
+              </div>
+              <div class="camp c-b">
+                <div class="spine"></div>
+                <div class="body">
+                  <div class="camp-top">
+                    <span class="camp-tag">粤语故事</span>
+                    <span class="camp-status">筹备中</span>
+                  </div>
+                  <h4>粤语故事分享（音频、视频）</h4>
+                  <p>用粤语讲当代事、身边事，为语料库留下鲜活的当下声音。</p>
+                  <button class="camp-cta soon">开启后提醒我</button>
+                </div>
+              </div>
+            </div>
+            <p class="v2-note">三项征集在同一首页并列，以颜色和标签区分，进行中的排在最前。各项征集有独立的投稿表单，登录与登记一次完成、全站通用。</p>
+          </div>
+        </section>
+
+        <div class="toast" id="toast"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 右：设计说明 ================= -->
+  <aside class="notes">
+    <h2>设计说明</h2>
+    <p class="sub">V2 在上一稿基础上加入微信登录与首次问卷，投稿动线仍保持零弹窗。左侧手机可实际点击，按首页、首次登记、投稿表单的顺序走一遍即是完整流程。</p>
+
+    <h3>一、投稿动线（本版加入登录与问卷）</h3>
+    <p>打开小程序时即完成微信静默登录，获取用户标识，用户对此无感知。首次点"我要投稿"，进入一页式登记，自上而下依次是微信授权、三题问卷、手机号，一屏填完，没有弹窗，也没有分步进度条。完成后直达投稿表单；此后再点"我要投稿"，一律直接进表单。登记信息全站一份，三项征集通用，可随时在"我的投稿"里修改。</p>
+
+    <h3>二、登录与问卷的优化</h3>
+    <ol>
+      <li><b>手机号免验证码。</b>改用微信手机号授权一键带入，替代原来的短信验证码，免输入免等待；授权失败时才退回手动输入并发送验证码。</li>
+      <li><b>问卷全部点选。</b>保留年龄、地区、兴趣三题，没有输入框。年龄在45岁以上增设60岁及以上一档，历史建筑的参与者中年长者不少，分层统计更有用。地区题由竖排长列表改为标签点选，一屏放下。兴趣题选项与三项征集和语料类型对齐，原"自然对话""粤语配音动画片"等作了归并。</li>
+      <li><b>必填降到最少。</b>年龄与地区必选，兴趣可跳过。问卷仅用于研究统计，不对外公开，沿用0702方案的表述。</li>
+      <li><b>联系方式前移。</b>手机号从投稿表单移到首次登记，表单因此更短，每次投稿只填与作品有关的内容。</li>
+    </ol>
+
+    <h3>三、对照此前四条意见</h3>
+    <ol>
+      <li>首期仅保留荔湾历史建筑征集，撤下"寻宝西关·骑楼密码"入口，全站统一简体。</li>
+      <li>打开即见公告，按"征集什么、照片这样拍、作品去向"呈现，技术参数收进折叠区。</li>
+      <li>原三步式"参赛前信息确认"和"补充参赛信息"弹窗取消，改为上述一页式首次登记。</li>
+      <li>照片命名由系统自动生成，街区下拉选择，故事线索直接填写，不必上传 Word 文档。</li>
+    </ol>
+
+    <h3>四、视觉思路</h3>
+    <p>不用与主题无关的紫蓝渐变和生成图片，整体气质从西关建筑本身取材。宋体大标题配正文黑体，底色取蚝壳灰墙的暖白，主色取满洲窗的深绿，红色只用在一枚"西关"印章上。满洲窗四色窗棂作为贯穿全站的视觉线索，首页、成功页和第二期的分类色都从这里来。用词上"参赛"统一改为"投稿"。</p>
+    <div class="swatches">
+      <span class="sw"><i style="background:#2E6B5B"></i>窗绿（主色）</span>
+      <span class="sw"><i style="background:#B5432C"></i>窗红（印章）</span>
+      <span class="sw"><i style="background:#C1922F"></i>窗金</span>
+      <span class="sw"><i style="background:#3E6089"></i>窗蓝</span>
+    </div>
+
+    <h3>五、第二期三项征集</h3>
+    <p>三项征集目标不同，放在同一系统里靠颜色和标签区分（见"第二期预览"一屏）。窗绿对应建筑影像，窗金对应文化关键词，窗蓝对应粤语故事，进行中的排在最前。文化关键词一项沿用0702方案的定位，对外只说"征集"不说"评选"；粤语故事一项定位为讲当代事、身边事，与"讲古"明确区分。首次登记做过一次，三项通用。</p>
+
+    <h3>六、给开发的备注</h3>
+    <p>启动时静默调用微信登录接口获取用户标识；手机号使用微信手机号授权组件，免短信验证码。登记完成状态记录在服务端，换设备登录后同样直达表单。问卷数据与投稿数据分开存储，便于统计分析。上传时校验 JPG 格式与长边像素并给出提示。历史文化街区名录以官方公布为准。作品状态分已提交、评选中、已收录三档，表彰结果另发短信。</p>
+  </aside>
+
+</div>
+
+<script>
+var registered = false;
+var loggedIn = false;
+var editMode = false;
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.proto-tabs button').forEach(function(b){
+    b.classList.toggle('on', b.dataset.screen === id);
+  });
+  var sc = document.querySelector('#'+id+' .scroll');
+  if(sc){sc.scrollTop = 0;}
+}
+document.querySelectorAll('.proto-tabs button').forEach(function(b){
+  b.addEventListener('click', function(){go(b.dataset.screen);});
+});
+
+function startSubmit(){
+  if(registered){
+    go('s-form');
+  }else{
+    editMode = false;
+    document.getElementById('regBtn').textContent = '完成登记，开始投稿';
+    go('s-reg');
+  }
+}
+function editReg(){
+  editMode = true;
+  document.getElementById('regBtn').textContent = '保存修改';
+  go('s-reg');
+}
+
+function toggleAcc(){
+  document.getElementById('acc-std').classList.toggle('open');
+}
+function tapChip(el){ el.classList.toggle('on'); }
+function tapSingle(el){
+  var g = el.dataset.g;
+  document.querySelectorAll('.chip[data-g="'+g+'"]').forEach(function(c){c.classList.remove('on');});
+  el.classList.add('on');
+}
+function fillTile(el){
+  if(el.classList.contains('filled')) return;
+  el.classList.add('filled');
+  el.innerHTML = '已选择';
+}
+function countTA(el){
+  document.getElementById('ta-n').textContent = el.value.length;
+}
+
+function wxLogin(){
+  loggedIn = true;
+  var av = document.getElementById('lgAvatar');
+  av.classList.add('ok');
+  av.innerHTML = '关';
+  document.getElementById('lgName').textContent = '西关街坊';
+  var sub = document.getElementById('lgSub');
+  sub.textContent = '已登录';
+  sub.classList.add('ok');
+  document.getElementById('lgBtn').style.display = 'none';
+}
+function wxFill(){
+  if(!loggedIn){ showToast('请先完成微信登录'); return; }
+  document.getElementById('r-tel').value = '13800001234';
+  showToast('已通过微信填入手机号');
+}
+function finishReg(){
+  if(!loggedIn){ showToast('请先完成微信登录'); return; }
+  if(!document.querySelector('.chip[data-g="age"].on')){ showToast('请选择你的年龄段'); return; }
+  if(!document.querySelector('.chip[data-g="region"].on')){ showToast('请选择你更熟悉的地区'); return; }
+  if(!document.getElementById('r-tel').value.trim()){ showToast('请填写手机号，用于表彰联系'); return; }
+  registered = true;
+  if(editMode){
+    editMode = false;
+    showToast('登记信息已更新');
+    go('s-mine');
+  }else{
+    go('s-form');
+  }
+}
+
+var toastTimer = null;
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){t.classList.remove('show');}, 2200);
+}
+function submitForm(){
+  var name = document.getElementById('f-name').value.trim();
+  var tileOk = document.querySelector('#s-form .ptile.must').classList.contains('filled');
+  var agree = document.getElementById('f-agree').checked;
+  if(!name){ showToast('请填写建筑名称'); return; }
+  if(!tileOk){ showToast('请先上传一张完整立面照片'); return; }
+  if(!agree){ showToast('请勾选原创与授权确认'); return; }
+  go('s-done');
+}
+</script>
+</body>
+</html>
