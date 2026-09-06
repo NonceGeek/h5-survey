@@ -12,7 +12,7 @@
   <div class="container">
     <header class="survey-header">
       <img src="/logo.png" alt="荔湾文化征集" class="survey-logo" />
-      <p class="host">广州大学荔湾研究院　主办</p>
+      <p class="host">广州大学荔湾研究院 & DimSum AI Labs 主办</p>
       <h1>荔湾历史建筑<br />文化信息征集</h1>
       <div class="pills">
         <span class="pill">建筑文脉</span>
@@ -34,9 +34,6 @@
       <p>
         请提交原创建筑外观摄影作品，拍摄对象仅限荔湾区范围内的历史建筑、传统风貌建筑、不可移动文物及历史文化街区，需至少提交一张完整立面图，可补充建筑构件、工艺的特写照片，清晰呈现建筑细节，并提供建筑相关说明及故事线索。
       </p>
-      <p class="fine">
-        规则栏限 100 字，完整的采集标准（含 ISO 与光圈要求、授权条款等）可在公众号推文查看。本期以图片与文字为主。
-      </p>
     </section>
 
     <section class="info-sec">
@@ -45,7 +42,6 @@
         <li><span>开始</span>2026&nbsp;年&nbsp;09&nbsp;月&nbsp;08&nbsp;日&nbsp;00:00</li>
         <li><span>结束</span>2027&nbsp;年&nbsp;09&nbsp;月&nbsp;08&nbsp;日&nbsp;00:00</li>
       </ul>
-      <p class="fine">长期征集；先设一年，到期续设。</p>
     </section>
 
     <form id="surveyForm" class="survey-form" novalidate>
@@ -331,8 +327,8 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="story">故事线索</label>
-          <p class="form-desc">选填。这栋楼的往事、老街坊的讲述……几句话就好</p>
+          <label class="form-label required" for="story">故事线索</label>
+          <p class="form-desc">这栋楼的往事、老街坊的讲述……几句话就好</p>
           <textarea
             id="story"
             name="story"
@@ -341,6 +337,7 @@
             placeholder="建筑相关说明与故事线索写在这里"
           ></textarea>
           <div class="ta-count"><span id="storyCount">0</span>/500</div>
+          <span class="error-msg" data-field="story"></span>
         </div>
 
         <div class="form-group">
@@ -366,7 +363,8 @@
         </div>
         <h2>已收到你的投稿</h2>
         <h2>感谢为荔湾留下这份记录</h2>
-        <p class="success-hint">👇 扫描二维码关注公众号，了解更多粤语文化相关内容 👇</p>
+        <p class="success-hint"><center>👇 扫描二维码关注公众号 👇</center></p>
+        <p class="success-hint"><center>了解更多粤语文化相关内容 ~</center></p>
         <img
           src="/qrcode_for_pub_acct.jpg"
           alt="公众号二维码"
@@ -375,6 +373,15 @@
       </div>
     </div>
   </div>
+
+  <footer class="site-footer">
+    <a href="/privacy.html">隐私条款</a>
+    <a
+      href="https://beian.miit.gov.cn/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >苏ICP备2025170597号</a>
+  </footer>
 
   <script type="module" src="/src/main.js"></script>
 </body>

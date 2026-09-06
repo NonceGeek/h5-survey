@@ -28,7 +28,7 @@ body {
   background: var(--paper);
   min-height: 100vh;
   color: var(--ink);
-  font-size: 15px;
+  font-size: 19px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
@@ -42,7 +42,7 @@ body {
 .container {
   max-width: 480px;
   margin: 0 auto;
-  padding: 20px 18px 48px;
+  padding: 20px 18px 72px;
 }
 
 /* —— Header —— */
@@ -63,7 +63,7 @@ body {
 }
 
 .host {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--ink2);
   letter-spacing: 0.04em;
   margin-bottom: 12px;
@@ -71,7 +71,7 @@ body {
 
 .survey-header h1 {
   font-family: var(--serif);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 900;
   color: var(--ink);
   line-height: 1.32;
@@ -86,7 +86,7 @@ body {
 }
 
 .pill {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--green-deep);
   background: var(--green-tint);
   border-radius: 999px;
@@ -95,7 +95,7 @@ body {
 
 .subtitle {
   margin-top: 14px;
-  font-size: 13.5px;
+  font-size: 17.5px;
   color: var(--ink2);
   line-height: 1.85;
 }
@@ -147,20 +147,20 @@ body {
 
 .sec-h h2 {
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 21px;
   font-weight: 700;
   margin: 0;
 }
 
 .info-sec > p {
-  font-size: 13.5px;
+  font-size: 17.5px;
   color: var(--ink);
   line-height: 1.85;
   margin: 0 0 8px;
 }
 
 .fine {
-  font-size: 12px !important;
+  font-size: 16px !important;
   color: var(--ink2) !important;
   line-height: 1.75 !important;
 }
@@ -174,7 +174,7 @@ body {
 .time-list li {
   display: flex;
   gap: 12px;
-  font-size: 13.5px;
+  font-size: 17.5px;
   margin-bottom: 6px;
   color: var(--ink);
 }
@@ -201,7 +201,7 @@ body {
   align-items: center;
   gap: 8px;
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: 23px;
   font-weight: 700;
   margin: 20px 0 8px;
   padding-top: 18px;
@@ -236,7 +236,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11.5px;
+  font-size: 15.5px;
   color: var(--ink2);
   text-align: center;
   position: relative;
@@ -273,7 +273,7 @@ body {
   background: var(--green);
   color: #fff;
   border-radius: 50%;
-  font-size: 11px;
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -309,7 +309,7 @@ body {
 }
 
 .plus {
-  font-size: 22px;
+  font-size: 26px;
   line-height: 1;
   font-weight: 300;
 }
@@ -335,14 +335,14 @@ body {
 }
 
 .auto-title-label {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--ink2);
   margin-bottom: 6px;
 }
 
 .auto-title-text {
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--ink);
   line-height: 1.5;
@@ -352,7 +352,7 @@ body {
 
 .auto-title-hint {
   margin: 8px 0 0;
-  font-size: 11.5px;
+  font-size: 15.5px;
   color: var(--ink2);
   line-height: 1.6;
 }
@@ -372,7 +372,7 @@ body {
   align-items: center;
   gap: 8px;
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 6px;
@@ -392,12 +392,12 @@ body {
   color: var(--red);
   font-family: var(--sans);
   font-weight: 400;
-  font-size: 13px;
+  font-size: 17px;
   margin-left: 2px;
 }
 
 .form-desc {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--ink2);
   margin: 0 0 10px 16px;
   line-height: 1.6;
@@ -408,7 +408,7 @@ body {
   padding: 11px 13px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 18px;
   color: var(--ink);
   background: #fff;
   font-family: var(--sans);
@@ -444,7 +444,7 @@ body {
 
 .ta-count {
   text-align: right;
-  font-size: 11px;
+  font-size: 15px;
   color: var(--ink2);
   margin-top: 3px;
 }
@@ -453,7 +453,7 @@ body {
   display: flex;
   gap: 9px;
   align-items: flex-start;
-  font-size: 12.5px;
+  font-size: 16.5px;
   color: var(--ink2);
   line-height: 1.7;
   cursor: pointer;
@@ -491,7 +491,7 @@ body {
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.12s;
-  font-size: 13px;
+  font-size: 17px;
   color: var(--ink);
   user-select: none;
   flex: 0 0 auto;
@@ -520,7 +520,7 @@ body {
 
 .error-msg {
   display: block;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--red);
   margin-top: 6px;
   min-height: 16px;
@@ -535,7 +535,7 @@ body {
   border-radius: 999px;
   background: var(--green);
   color: #fff;
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 600;
   font-family: var(--sans);
   cursor: pointer;
@@ -595,7 +595,7 @@ body {
   gap: 4px;
   position: relative;
   color: #fff;
-  font-size: 40px;
+  font-size: 44px;
 }
 
 .success-icon .tile {
@@ -616,7 +616,7 @@ body {
 
 .success-card h2 {
   font-family: var(--serif);
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 8px;
@@ -624,14 +624,14 @@ body {
 }
 
 .success-card h2 + h2 {
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 700;
   margin-bottom: 14px;
   color: var(--ink);
 }
 
 .success-hint {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--ink2);
   line-height: 1.7;
   margin-bottom: 18px;
@@ -659,18 +659,64 @@ body {
   }
 }
 
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 18px 28px;
+  font-size: 14px;
+  color: var(--ink2);
+}
+
+.site-footer a {
+  color: var(--ink2);
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.site-footer a:hover {
+  color: var(--green-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.privacy-back {
+  display: inline-block;
+  margin-bottom: 14px;
+  font-size: 16px;
+  color: var(--green-deep);
+  text-decoration: none;
+}
+
+.privacy-back:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.privacy-page .survey-header h1 {
+  font-size: 28px;
+}
+
 @media (max-width: 360px) {
   .container {
-    padding: 14px 12px 40px;
+    padding: 14px 12px 64px;
   }
 
   .survey-header h1 {
-    font-size: 22px;
+    font-size: 26px;
   }
 
   .success-hint {
     white-space: normal;
-    font-size: 12px;
+    font-size: 16px;
+  }
+
+  .site-footer {
+    padding: 14px 12px 24px;
+    font-size: 13px;
   }
 }
 

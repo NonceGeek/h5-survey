@@ -122,17 +122,29 @@ function isValidCollectDate(value) {
   return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d;
 }
 
+function isValidPhone(phone) {
+  const cleaned = phone.replace(/[\s-]/g, "");
+  // 内地手机：可选 +86 / 86 前缀
+  if (/^(\+?86)?1[3-9]\d{9}$/.test(cleaned)) return true;
+  // 固话：区号 + 号码（7–8 位）
+  if (/^0\d{2,3}\d{7,8}$/.test(cleaned)) return true;
+  return false;
+}
+
 function validate(data) {
   const errors = {};
   if (!data.gender) errors.gender = "请选择您的性别";
   if (!data.ageRange) errors.ageRange = "请选择您的年龄段";
   if (!data.region) errors.region = "请选择您熟悉的语言文化地区";
   if (!data.phone) errors.phone = "请输入您的联系电话";
+  else if (!isValidPhone(data.phone))
+    errors.phone = "请输入有效的手机号或固话（如 13800138000）";
   if (!data.wechatId) errors.wechatId = "请输入微信 ID";
   if (!data.collectDate) errors.collectDate = "请选择采集日期";
   else if (!isValidCollectDate(data.collectDate))
     errors.collectDate = "请选择有效的采集日期";
   if (!data.photos.facade) errors.photos = "请上传至少一张完整立面照片";
+  if (!data.story) errors.story = "请填写故事线索";
   if (!data.agree) errors.agree = "请勾选原创与授权确认";
   return errors;
 }
@@ -162,6 +174,44 @@ function resetPhotoTiles() {
   });
 }
 
+const PHOTO_BUCKET = "liwan-photo";
+const EVENT_ID = "liwan_building";
+
+function safeFileName(name) {
+  return name.replace(/[^\w.\u4e00-\u9fff-]+/g, "_").slice(0, 80) || "photo.jpg";
+}
+
+async function uploadPhoto(file, role, collectDate) {
+  const yymmdd = toYYMMDD(collectDate) || "unknown";
+  const stamp = Date.now();
+  const path = `${EVENT_ID}/${yymmdd}/${stamp}-${role}-${safeFileName(file.name)}`;
+
+  const { error } = await supabase.storage.from(PHOTO_BUCKET).upload(path, file, {
+    cacheControl: "3600",
+    upsert: false,
+    contentType: file.type || "image/jpeg",
+  });
+  if (error) throw error;
+
+  const { data } = supabase.storage.from(PHOTO_BUCKET).getPublicUrl(path);
+  return {
+    role,
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    path,
+    url: data.publicUrl,
+  };
+}
+
+async function uploadAllPhotos(photos, collectDate) {
+  const jobs = [];
+  if (photos.facade) jobs.push(uploadPhoto(photos.facade, "facade", collectDate));
+  if (photos.detail1) jobs.push(uploadPhoto(photos.detail1, "detail1", collectDate));
+  if (photos.detail2) jobs.push(uploadPhoto(photos.detail2, "detail2", collectDate));
+  return Promise.all(jobs);
+}
+
 async function handleSubmit(e) {
   e.preventDefault();
 
@@ -171,11 +221,19 @@ async function handleSubmit(e) {
   if (Object.keys(errors).length > 0) return;
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "提交中...";
+  submitBtn.textContent = "上传图片中...";
 
-  const photoFiles = [data.photos.facade, data.photos.detail1, data.photos.detail2].filter(
-    Boolean
-  );
+  let uploadedPhotos;
+  try {
+    uploadedPhotos = await uploadAllPhotos(data.photos, data.collectDate);
+  } catch (err) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "提交问卷";
+    alert("图片上传失败，请稍后重试：" + (err.message || err));
+    return;
+  }
+
+  submitBtn.textContent = "提交中...";
 
   const content = {
     campaign: "荔湾历史建筑文化信息征集",
@@ -189,17 +247,14 @@ async function handleSubmit(e) {
     buildingName: data.buildingName || null,
     autoTitle: buildAutoTitle(),
     photoContent: data.photoContent,
-    photoFiles: photoFiles.map((f) => ({
-      name: f.name,
-      size: f.size,
-      type: f.type,
-    })),
-    story: data.story || null,
+    photoFiles: uploadedPhotos,
+    story: data.story,
     mediaType: "图片",
   };
 
   const { error } = await supabase.from("app_lib_h5_survey").insert({
     wechat_id: data.wechatId,
+    event_id: EVENT_ID,
     content,
   });
 
