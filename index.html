@@ -11,7 +11,7 @@
 <body>
   <div class="container">
     <header class="survey-header">
-      <img src="/logo.png" alt="荔湾文化征集" class="survey-logo" />
+      <img src="/banner-2.png" alt="荔湾历史建筑文化信息征集" class="survey-banner" />
       <p class="host">广州大学荔湾研究院 & DimSum AI Labs 主办</p>
       <h1>荔湾历史建筑<br />文化信息征集</h1>
       <div class="pills">
@@ -157,11 +157,6 @@
               <span>澳门</span>
             </label>
             <label class="radio-item">
-              <input type="radio" name="region" value="广东其他" />
-              <span class="radio-mark"></span>
-              <span>广东其他</span>
-            </label>
-            <label class="radio-item">
               <input type="radio" name="region" value="省外" />
               <span class="radio-mark"></span>
               <span>省外</span>
@@ -170,6 +165,18 @@
               <input type="radio" name="region" value="海外" />
               <span class="radio-mark"></span>
               <span>海外</span>
+            </label>
+            <label class="radio-item region-other-item">
+              <input type="radio" name="region" value="其他" id="regionOtherRadio" />
+              <span class="radio-mark"></span>
+              <span>其他</span>
+              <input
+                type="text"
+                class="region-other-input"
+                id="regionOtherInput"
+                name="regionOther"
+                placeholder="请自行填写"
+              />
             </label>
           </div>
           <span class="error-msg" data-field="region"></span>
@@ -183,10 +190,10 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label required">微信 ID</label>
-          <p class="form-desc">获得表彰时，便于工作人员建立联系</p>
-          <input type="text" name="wechatId" class="form-input" placeholder="请输入您的微信 ID" />
-          <span class="error-msg" data-field="wechatId"></span>
+          <label class="form-label">Email 电子邮箱</label>
+          <p class="form-desc">选填。便于工作人员建立联系</p>
+          <input type="email" name="email" class="form-input" placeholder="请输入您的 Email" />
+          <span class="error-msg" data-field="email"></span>
         </div>
       </section>
 
@@ -230,105 +237,122 @@
             placeholder="例如　宝华路某骑楼、龙津西路民居"
           />
         </div>
-
-        <div class="auto-title-box" id="autoTitleBox">
-          <div class="auto-title-label">自动生成标题</div>
-          <p class="auto-title-text" id="autoTitleText">—</p>
-          <p class="auto-title-hint">格式：采集日期(YYMMDD)-街巷编号-建筑名称-立面/要素</p>
-        </div>
       </section>
 
       <!-- —— 3. 照片与故事 —— -->
       <section class="form-section">
         <h3 class="form-section-title"><i></i>照片与故事</h3>
+        <p class="form-desc section-desc">长边不低于 6000 像素；照片 1 必传。每张照片可单独选择内容，并自动生成标题。</p>
 
-        <div class="form-group">
-          <label class="form-label required">上传照片</label>
-          <p class="form-desc">长边不低于 6000 像素；至少一张完整立面</p>
-          <div class="photo-row">
-            <label class="ptile must" id="tileFacade">
-              <input type="file" name="photoFacade" accept="image/jpeg,image/jpg,image/png" class="photo-input" data-tile="tileFacade" />
-              <span class="ptile-inner">
-                <span class="plus">＋</span>
-                <span class="ptile-label">照片&nbsp;1<br />必传</span>
-              </span>
-            </label>
-            <label class="ptile" id="tileDetail1">
-              <input type="file" name="photoDetail1" accept="image/jpeg,image/jpg,image/png" class="photo-input" data-tile="tileDetail1" />
-              <span class="ptile-inner">
-                <span class="plus">＋</span>
-                <span class="ptile-label">照片&nbsp;2<br />选填</span>
-              </span>
-            </label>
-            <label class="ptile" id="tileDetail2">
-              <input type="file" name="photoDetail2" accept="image/jpeg,image/jpg,image/png" class="photo-input" data-tile="tileDetail2" />
-              <span class="ptile-inner">
-                <span class="plus">＋</span>
-                <span class="ptile-label">照片&nbsp;3<br />选填</span>
-              </span>
-            </label>
+        <div class="photo-block" data-photo="facade">
+          <div class="photo-block-head">
+            <label class="form-label required">照片 1</label>
           </div>
-          <span class="error-msg" data-field="photos"></span>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">照片内容</label>
-          <p class="form-desc">可多选</p>
-          <div class="radio-group">
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="正立面" />
-              <span>正立面</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="侧立面" />
-              <span>侧立面</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="入口" />
-              <span>入口</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="门窗" />
-              <span>门窗</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="阳台" />
-              <span>阳台</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="柱头" />
-              <span>柱头</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="彩绘" />
-              <span>彩绘</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="灰塑" />
-              <span>灰塑</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="石雕" />
-              <span>石雕</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="砖雕" />
-              <span>砖雕</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="木雕" />
-              <span>木雕</span>
-            </label>
-            <label class="radio-item">
-              <input type="checkbox" name="photoContent" value="其他" />
-              <span>其他</span>
-            </label>
+          <label class="ptile must" id="tileFacade">
+            <input type="file" name="photoFacade" accept="image/jpeg,image/jpg,image/png" class="photo-input" data-tile="tileFacade" data-photo="facade" />
+            <span class="ptile-inner">
+              <span class="plus">＋</span>
+              <span class="ptile-label">点击上传<br />必传</span>
+            </span>
+          </label>
+          <div class="photo-content-wrap">
+            <div class="form-label">照片内容</div>
+            <p class="form-desc">可多选</p>
+            <div class="radio-group photo-content-group" data-photo="facade">
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="正立面" /><span>正立面</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="侧立面" /><span>侧立面</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="入口" /><span>入口</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="门窗" /><span>门窗</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="阳台" /><span>阳台</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="柱头" /><span>柱头</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="彩绘" /><span>彩绘</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="灰塑" /><span>灰塑</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="石雕" /><span>石雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="砖雕" /><span>砖雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="木雕" /><span>木雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentFacade" value="其他" /><span>其他</span></label>
+            </div>
+          </div>
+          <div class="auto-title-box photo-title-box">
+            <div class="auto-title-label">自动生成标题</div>
+            <p class="auto-title-text" data-photo-title="facade">—</p>
           </div>
         </div>
+
+        <div class="photo-block" data-photo="detail1">
+          <div class="photo-block-head">
+            <label class="form-label">照片 2 <span class="opt-tag">选填</span></label>
+          </div>
+          <label class="ptile" id="tileDetail1">
+            <input type="file" name="photoDetail1" accept="image/jpeg,image/jpg,image/png" class="photo-input" data-tile="tileDetail1" data-photo="detail1" />
+            <span class="ptile-inner">
+              <span class="plus">＋</span>
+              <span class="ptile-label">点击上传<br />选填</span>
+            </span>
+          </label>
+          <div class="photo-content-wrap">
+            <div class="form-label">照片内容</div>
+            <p class="form-desc">可多选</p>
+            <div class="radio-group photo-content-group" data-photo="detail1">
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="正立面" /><span>正立面</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="侧立面" /><span>侧立面</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="入口" /><span>入口</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="门窗" /><span>门窗</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="阳台" /><span>阳台</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="柱头" /><span>柱头</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="彩绘" /><span>彩绘</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="灰塑" /><span>灰塑</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="石雕" /><span>石雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="砖雕" /><span>砖雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="木雕" /><span>木雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail1" value="其他" /><span>其他</span></label>
+            </div>
+          </div>
+          <div class="auto-title-box photo-title-box">
+            <div class="auto-title-label">自动生成标题</div>
+            <p class="auto-title-text" data-photo-title="detail1">—</p>
+          </div>
+        </div>
+
+        <div class="photo-block" data-photo="detail2">
+          <div class="photo-block-head">
+            <label class="form-label">照片 3 <span class="opt-tag">选填</span></label>
+          </div>
+          <label class="ptile" id="tileDetail2">
+            <input type="file" name="photoDetail2" accept="image/jpeg,image/jpg,image/png" class="photo-input" data-tile="tileDetail2" data-photo="detail2" />
+            <span class="ptile-inner">
+              <span class="plus">＋</span>
+              <span class="ptile-label">点击上传<br />选填</span>
+            </span>
+          </label>
+          <div class="photo-content-wrap">
+            <div class="form-label">照片内容</div>
+            <p class="form-desc">可多选</p>
+            <div class="radio-group photo-content-group" data-photo="detail2">
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="正立面" /><span>正立面</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="侧立面" /><span>侧立面</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="入口" /><span>入口</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="门窗" /><span>门窗</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="阳台" /><span>阳台</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="柱头" /><span>柱头</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="彩绘" /><span>彩绘</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="灰塑" /><span>灰塑</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="石雕" /><span>石雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="砖雕" /><span>砖雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="木雕" /><span>木雕</span></label>
+              <label class="radio-item"><input type="checkbox" name="photoContentDetail2" value="其他" /><span>其他</span></label>
+            </div>
+          </div>
+          <div class="auto-title-box photo-title-box">
+            <div class="auto-title-label">自动生成标题</div>
+            <p class="auto-title-text" data-photo-title="detail2">—</p>
+          </div>
+        </div>
+        <span class="error-msg" data-field="photos"></span>
 
         <div class="form-group">
           <label class="form-label required" for="story">故事线索</label>
-          <p class="form-desc">这栋楼的往事、老街坊的讲述……几句话就好</p>
+          <p class="form-desc">建筑的往事、老街坊的讲述……几句话就好</p>
           <textarea
             id="story"
             name="story"

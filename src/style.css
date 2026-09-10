@@ -51,12 +51,14 @@ body {
   padding: 18px 4px 8px;
 }
 
-.survey-logo {
+.survey-banner {
   display: block;
-  width: 56px;
-  height: 56px;
-  margin: 0 0 14px;
-  object-fit: contain;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: 0 0 16px;
+  object-fit: cover;
+  object-position: center;
   border-radius: 12px;
   border: 1px solid var(--line);
   background: var(--card);
@@ -220,7 +222,56 @@ body {
   flex: none;
 }
 
-/* Photo tiles */
+/* Photo blocks */
+.section-desc {
+  margin: 0 0 8px;
+}
+
+.opt-tag {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink2);
+  margin-left: 4px;
+}
+
+.photo-block {
+  margin: 18px 0;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.photo-block-head {
+  margin-bottom: 10px;
+}
+
+.photo-block-head .form-label {
+  margin-bottom: 0;
+}
+
+.photo-block .ptile {
+  width: 120px;
+  margin-bottom: 14px;
+}
+
+.photo-content-wrap {
+  margin-bottom: 12px;
+}
+
+.photo-content-wrap .form-label {
+  margin-bottom: 2px;
+}
+
+.photo-content-wrap .form-desc {
+  margin-left: 16px;
+}
+
+.photo-title-box {
+  margin-top: 4px;
+}
+
 .photo-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -501,7 +552,8 @@ body {
   transform: scale(0.97);
 }
 
-.radio-item input {
+.radio-item input[type="radio"],
+.radio-item input[type="checkbox"] {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -516,6 +568,35 @@ body {
   background: var(--green);
   border-color: var(--green);
   color: #fff;
+}
+
+.region-other-item {
+  flex: 1 1 100%;
+  gap: 8px;
+}
+
+.region-other-input {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  padding: 0 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--ink);
+  background: #fff;
+  outline: none;
+  font-family: var(--sans);
+}
+
+.region-other-input:focus {
+  border-color: var(--green);
+}
+
+.region-other-item:has(input[type="radio"]:checked) .region-other-input {
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ink);
 }
 
 .error-msg {
