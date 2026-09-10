@@ -50,10 +50,10 @@ create a h5 page for survey: 荔湾历史建筑文化信息征集（见 `prototy
 * 选填：所处街巷编号、建筑名称
 
 #### 3. 照片与故事
-* 必填：完整立面照片、故事线索（最多 500 字）、原创与授权确认
-* 选填：局部特写（最多 2 张）
-* 每张照片可单独选择「照片内容」，并自动生成标题：`YYMMDD-街巷编号-建筑名称-立面/要素`
+* 必填：完整立面照片、照片 1 故事线索、原创与授权确认
+* 选填：局部特写（最多 2 张）；若上传照片 2/3，需填写对应故事线索
+* 每张照片可单独选择「照片内容」、填写「故事线索」，并自动生成标题：`YYMMDD-街巷编号-建筑名称-立面/要素`
 * 图片上传至 Supabase Storage bucket：`liwan-photo`
 * 路径：`liwan_building/{YYMMDD}/{timestamp}-{role}.{ext}`（仅 ASCII，中文标题写在 metadata）
-* `content.photoFiles` 含 `role / name / size / type / path / url / autoTitle`
-* `content.photoContents` / `content.photoTitles` 为各照片的内容与标题
+* `content.photoFiles` 含 `role / name / size / type / path / url / autoTitle / story`
+* `content.photoContents` / `content.photoTitles` / `content.stories` 为各照片的内容、标题与故事

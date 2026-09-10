@@ -272,6 +272,16 @@ body {
   margin-top: 4px;
 }
 
+.photo-story-wrap {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.photo-story-wrap .form-desc {
+  margin-left: 16px;
+}
+
 .photo-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

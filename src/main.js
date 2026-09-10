@@ -24,48 +24,81 @@ const PHOTO_EMPTY_LABEL = {
 const form = document.getElementById("surveyForm");
 const submitBtn = document.getElementById("submitBtn");
 const successOverlay = document.getElementById("successOverlay");
-const storyInput = document.getElementById("story");
-const storyCount = document.getElementById("storyCount");
 const collectDateInput = document.getElementById("collectDate");
 const streetCodeInput = document.getElementById("streetCode");
 const buildingNameInput = document.getElementById("buildingName");
 const regionOtherRadio = document.getElementById("regionOtherRadio");
 const regionOtherInput = document.getElementById("regionOtherInput");
+const regionOutsideRadio = document.getElementById("regionOutsideRadio");
+const regionOutsideInput = document.getElementById("regionOutsideInput");
+const regionOverseasRadio = document.getElementById("regionOverseasRadio");
+const regionOverseasInput = document.getElementById("regionOverseasInput");
 
-function syncRegionOtherInput() {
-  if (!regionOtherRadio.checked) {
-    regionOtherInput.value = "";
-  }
+const PHOTO_STORY_NAMES = {
+  facade: "storyFacade",
+  detail1: "storyDetail1",
+  detail2: "storyDetail2",
+};
+
+const REGION_EXTRA_FIELDS = [
+  { value: "省外", radio: regionOutsideRadio, input: regionOutsideInput },
+  { value: "海外", radio: regionOverseasRadio, input: regionOverseasInput },
+  { value: "其他", radio: regionOtherRadio, input: regionOtherInput },
+];
+
+function syncRegionExtraInputs() {
+  REGION_EXTRA_FIELDS.forEach(({ radio, input }) => {
+    if (!radio.checked) input.value = "";
+  });
+}
+
+function formatRegionValue(base, detail) {
+  const text = (detail || "").trim();
+  return text ? `${base}（${text}）` : base;
+}
+
+function parseRegionValue(region) {
+  const match = String(region || "").match(/^(省外|海外|其他)(?:（(.+)）)?$/);
+  if (!match) return { base: region, detail: "" };
+  return { base: match[1], detail: match[2] || "" };
 }
 
 form.querySelectorAll('input[name="region"]').forEach((el) => {
-  el.addEventListener("change", syncRegionOtherInput);
+  el.addEventListener("change", syncRegionExtraInputs);
 });
 
-regionOtherInput.addEventListener("pointerdown", (e) => {
-  e.stopPropagation();
-});
-
-regionOtherInput.addEventListener("focus", () => {
-  regionOtherRadio.checked = true;
-});
-
-regionOtherInput.addEventListener("input", () => {
-  regionOtherRadio.checked = true;
+REGION_EXTRA_FIELDS.forEach(({ radio, input }) => {
+  input.addEventListener("pointerdown", (e) => {
+    e.stopPropagation();
+  });
+  input.addEventListener("focus", () => {
+    radio.checked = true;
+    syncRegionExtraInputs();
+  });
+  input.addEventListener("input", () => {
+    radio.checked = true;
+  });
 });
 
 function getBasicInfoFromForm() {
   const formData = new FormData(form);
   let region = formData.get("region") || "";
-  let regionOther = (formData.get("regionOther") || "").trim();
-  if (region === "其他" && regionOther) {
-    region = `其他（${regionOther}）`;
+  let regionDetail = "";
+  if (region === "省外") {
+    regionDetail = (formData.get("regionOutside") || "").trim();
+    region = formatRegionValue("省外", regionDetail);
+  } else if (region === "海外") {
+    regionDetail = (formData.get("regionOverseas") || "").trim();
+    region = formatRegionValue("海外", regionDetail);
+  } else if (region === "其他") {
+    regionDetail = (formData.get("regionOther") || "").trim();
+    region = formatRegionValue("其他", regionDetail);
   }
   return {
     gender: formData.get("gender") || "",
     ageRange: formData.get("ageRange") || "",
     region,
-    regionOther: region.startsWith("其他") ? regionOther : "",
+    regionDetail,
     phone: (formData.get("phone") || "").trim(),
     email: (formData.get("email") || "").trim(),
   };
@@ -99,18 +132,18 @@ function applyBasicInfo(info) {
   }
 
   if (info.region) {
-    const otherMatch = info.region.match(/^其他（(.+)）$/);
-    if (info.region === "其他" || otherMatch) {
-      regionOtherRadio.checked = true;
-      regionOtherInput.value = otherMatch
-        ? otherMatch[1]
-        : info.regionOther || "";
+    const { base, detail } = parseRegionValue(info.region);
+    const extra = REGION_EXTRA_FIELDS.find((item) => item.value === base);
+    if (extra) {
+      extra.radio.checked = true;
+      syncRegionExtraInputs();
+      extra.input.value = detail || info.regionDetail || "";
     } else {
       const el = form.querySelector(
         `input[name="region"][value="${CSS.escape(info.region)}"]`
       );
       if (el) el.checked = true;
-      regionOtherInput.value = "";
+      syncRegionExtraInputs();
     }
   }
 
@@ -137,7 +170,7 @@ function loadBasicInfo() {
 
 function bindBasicInfoAutosave() {
   const fields = form.querySelectorAll(
-    'input[name="gender"], input[name="ageRange"], input[name="region"], input[name="regionOther"], input[name="phone"], input[name="email"]'
+    'input[name="gender"], input[name="ageRange"], input[name="region"], input[name="regionOther"], input[name="regionOutside"], input[name="regionOverseas"], input[name="phone"], input[name="email"]'
   );
   fields.forEach((el) => {
     el.addEventListener("change", saveBasicInfo);
@@ -205,8 +238,14 @@ PHOTO_ROLES.forEach((role) => {
   });
 });
 
-storyInput.addEventListener("input", () => {
-  storyCount.textContent = String(storyInput.value.length);
+document.querySelectorAll(".photo-story-input").forEach((input) => {
+  const countId = input.dataset.storyCount;
+  const countEl = countId ? document.getElementById(countId) : null;
+  const syncCount = () => {
+    if (countEl) countEl.textContent = String(input.value.length);
+  };
+  syncCount();
+  input.addEventListener("input", syncCount);
 });
 
 document.querySelectorAll(".photo-input").forEach((input) => {
@@ -245,9 +284,12 @@ function getFormData() {
   const formData = new FormData(form);
   const photos = getPhotoFiles();
   let region = formData.get("region") || "";
-  if (region === "其他") {
-    const other = (formData.get("regionOther") || "").trim();
-    region = other ? `其他（${other}）` : "其他";
+  if (region === "省外") {
+    region = formatRegionValue("省外", formData.get("regionOutside"));
+  } else if (region === "海外") {
+    region = formatRegionValue("海外", formData.get("regionOverseas"));
+  } else if (region === "其他") {
+    region = formatRegionValue("其他", formData.get("regionOther"));
   }
   return {
     gender: formData.get("gender") || "",
@@ -268,7 +310,11 @@ function getFormData() {
       detail1: buildPhotoTitle("detail1"),
       detail2: buildPhotoTitle("detail2"),
     },
-    story: (formData.get("story") || "").trim(),
+    stories: {
+      facade: (formData.get(PHOTO_STORY_NAMES.facade) || "").trim(),
+      detail1: (formData.get(PHOTO_STORY_NAMES.detail1) || "").trim(),
+      detail2: (formData.get(PHOTO_STORY_NAMES.detail2) || "").trim(),
+    },
     agree: formData.get("agree") === "on",
     photos,
   };
@@ -307,7 +353,12 @@ function validate(data) {
   else if (!isValidCollectDate(data.collectDate))
     errors.collectDate = "请选择有效的采集日期";
   if (!data.photos.facade) errors.photos = "请上传照片 1";
-  if (!data.story) errors.story = "请填写故事线索";
+  if (data.photos.facade && !data.stories.facade)
+    errors.storyFacade = "请填写照片 1 的故事线索";
+  if (data.photos.detail1 && !data.stories.detail1)
+    errors.storyDetail1 = "请填写照片 2 的故事线索";
+  if (data.photos.detail2 && !data.stories.detail2)
+    errors.storyDetail2 = "请填写照片 3 的故事线索";
   if (!data.agree) errors.agree = "请勾选原创与授权确认";
   return errors;
 }
@@ -342,7 +393,7 @@ function fileExtension(name, fallback = ".jpg") {
   return match ? match[1].toLowerCase() : fallback;
 }
 
-async function uploadPhoto(file, role, collectDate, autoTitle) {
+async function uploadPhoto(file, role, collectDate, autoTitle, story) {
   const yymmdd = toYYMMDD(collectDate) || "unknown";
   const stamp = Date.now();
   const ext = fileExtension(file.name);
@@ -365,14 +416,23 @@ async function uploadPhoto(file, role, collectDate, autoTitle) {
     path,
     url: data.publicUrl,
     autoTitle,
+    story: story || null,
   };
 }
 
-async function uploadAllPhotos(photos, photoTitles, collectDate) {
+async function uploadAllPhotos(photos, photoTitles, stories, collectDate) {
   const jobs = [];
   for (const role of PHOTO_ROLES) {
     if (photos[role]) {
-      jobs.push(uploadPhoto(photos[role], role, collectDate, photoTitles[role]));
+      jobs.push(
+        uploadPhoto(
+          photos[role],
+          role,
+          collectDate,
+          photoTitles[role],
+          stories[role]
+        )
+      );
     }
   }
   return Promise.all(jobs);
@@ -394,6 +454,7 @@ async function handleSubmit(e) {
     uploadedPhotos = await uploadAllPhotos(
       data.photos,
       data.photoTitles,
+      data.stories,
       data.collectDate
     );
   } catch (err) {
@@ -418,8 +479,8 @@ async function handleSubmit(e) {
     buildingName: data.buildingName || null,
     photoContents: data.photoContents,
     photoTitles: data.photoTitles,
+    stories: data.stories,
     photoFiles: uploadedPhotos,
-    story: data.story,
     mediaType: "图片",
   };
 
@@ -441,7 +502,11 @@ async function handleSubmit(e) {
   saveBasicInfo();
   form.reset();
   collectDateInput.value = todayISODate();
-  storyCount.textContent = "0";
+  document.querySelectorAll(".photo-story-input").forEach((input) => {
+    const countId = input.dataset.storyCount;
+    const countEl = countId ? document.getElementById(countId) : null;
+    if (countEl) countEl.textContent = "0";
+  });
   resetPhotoTiles();
   loadBasicInfo();
   updateAllPhotoTitles();

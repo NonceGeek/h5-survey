@@ -156,15 +156,29 @@
               <span class="radio-mark"></span>
               <span>澳门</span>
             </label>
-            <label class="radio-item">
-              <input type="radio" name="region" value="省外" />
+            <label class="radio-item region-other-item">
+              <input type="radio" name="region" value="省外" id="regionOutsideRadio" />
               <span class="radio-mark"></span>
               <span>省外</span>
+              <input
+                type="text"
+                class="region-other-input"
+                id="regionOutsideInput"
+                name="regionOutside"
+                placeholder="选填，如省份/城市"
+              />
             </label>
-            <label class="radio-item">
-              <input type="radio" name="region" value="海外" />
+            <label class="radio-item region-other-item">
+              <input type="radio" name="region" value="海外" id="regionOverseasRadio" />
               <span class="radio-mark"></span>
               <span>海外</span>
+              <input
+                type="text"
+                class="region-other-input"
+                id="regionOverseasInput"
+                name="regionOverseas"
+                placeholder="选填，如国家/地区"
+              />
             </label>
             <label class="radio-item region-other-item">
               <input type="radio" name="region" value="其他" id="regionOtherRadio" />
@@ -277,6 +291,20 @@
             <div class="auto-title-label">自动生成标题</div>
             <p class="auto-title-text" data-photo-title="facade">—</p>
           </div>
+          <div class="photo-story-wrap">
+            <label class="form-label required" for="storyFacade">故事线索</label>
+            <p class="form-desc">这张照片相关的往事、老街坊的讲述……几句话就好</p>
+            <textarea
+              id="storyFacade"
+              name="storyFacade"
+              class="form-input form-textarea photo-story-input"
+              maxlength="500"
+              placeholder="请填写这张照片的故事线索"
+              data-story-count="storyCountFacade"
+            ></textarea>
+            <div class="ta-count"><span id="storyCountFacade">0</span>/500</div>
+            <span class="error-msg" data-field="storyFacade"></span>
+          </div>
         </div>
 
         <div class="photo-block" data-photo="detail1">
@@ -311,6 +339,20 @@
           <div class="auto-title-box photo-title-box">
             <div class="auto-title-label">自动生成标题</div>
             <p class="auto-title-text" data-photo-title="detail1">—</p>
+          </div>
+          <div class="photo-story-wrap">
+            <label class="form-label" for="storyDetail1">故事线索 <span class="opt-tag">上传照片后建议填写</span></label>
+            <p class="form-desc">这张照片相关的往事、老街坊的讲述……几句话就好</p>
+            <textarea
+              id="storyDetail1"
+              name="storyDetail1"
+              class="form-input form-textarea photo-story-input"
+              maxlength="500"
+              placeholder="请填写这张照片的故事线索"
+              data-story-count="storyCountDetail1"
+            ></textarea>
+            <div class="ta-count"><span id="storyCountDetail1">0</span>/500</div>
+            <span class="error-msg" data-field="storyDetail1"></span>
           </div>
         </div>
 
@@ -347,22 +389,22 @@
             <div class="auto-title-label">自动生成标题</div>
             <p class="auto-title-text" data-photo-title="detail2">—</p>
           </div>
+          <div class="photo-story-wrap">
+            <label class="form-label" for="storyDetail2">故事线索 <span class="opt-tag">上传照片后建议填写</span></label>
+            <p class="form-desc">这张照片相关的往事、老街坊的讲述……几句话就好</p>
+            <textarea
+              id="storyDetail2"
+              name="storyDetail2"
+              class="form-input form-textarea photo-story-input"
+              maxlength="500"
+              placeholder="请填写这张照片的故事线索"
+              data-story-count="storyCountDetail2"
+            ></textarea>
+            <div class="ta-count"><span id="storyCountDetail2">0</span>/500</div>
+            <span class="error-msg" data-field="storyDetail2"></span>
+          </div>
         </div>
         <span class="error-msg" data-field="photos"></span>
-
-        <div class="form-group">
-          <label class="form-label required" for="story">故事线索</label>
-          <p class="form-desc">建筑的往事、老街坊的讲述……几句话就好</p>
-          <textarea
-            id="story"
-            name="story"
-            class="form-input form-textarea"
-            maxlength="500"
-            placeholder="建筑相关说明与故事线索写在这里"
-          ></textarea>
-          <div class="ta-count"><span id="storyCount">0</span>/500</div>
-          <span class="error-msg" data-field="story"></span>
-        </div>
 
         <div class="form-group">
           <label class="agree">
