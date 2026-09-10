@@ -337,17 +337,17 @@ function resetPhotoTiles() {
   });
 }
 
-function safeFileName(name) {
-  return name.replace(/[^\w.\u4e00-\u9fff-]+/g, "_").slice(0, 80) || "photo.jpg";
+function fileExtension(name, fallback = ".jpg") {
+  const match = String(name).match(/(\.[a-zA-Z0-9]+)$/);
+  return match ? match[1].toLowerCase() : fallback;
 }
 
 async function uploadPhoto(file, role, collectDate, autoTitle) {
   const yymmdd = toYYMMDD(collectDate) || "unknown";
   const stamp = Date.now();
-  const titleSlug = autoTitle && autoTitle !== "—"
-    ? safeFileName(autoTitle)
-    : role;
-  const path = `${EVENT_ID}/${yymmdd}/${stamp}-${titleSlug}-${safeFileName(file.name)}`;
+  const ext = fileExtension(file.name);
+  // Supabase Storage keys must be ASCII-safe; keep Chinese titles in metadata only
+  const path = `${EVENT_ID}/${yymmdd}/${stamp}-${role}${ext}`;
 
   const { error } = await supabase.storage.from(PHOTO_BUCKET).upload(path, file, {
     cacheControl: "3600",
