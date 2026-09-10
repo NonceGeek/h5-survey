@@ -424,7 +424,7 @@ async function handleSubmit(e) {
   };
 
   const { error } = await supabase.from("app_lib_h5_survey").insert({
-    wechat_id: null,
+    phone: data.phone,
     event_id: EVENT_ID,
     content,
   });
